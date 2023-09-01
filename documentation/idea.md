@@ -24,4 +24,8 @@ Code Review as an application should be a forum to review code. Useres should be
 
 ## Use Case Diagram
 
-![img](./U)
+![img](./Use_cases.png "Use Cases")
+
+### Use Case Thread eröffnen
+
+![Open up thread](./OpenUpThread_UseCase.png "OpenUpThread")
