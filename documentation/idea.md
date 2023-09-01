@@ -2,7 +2,7 @@
 
 ## Explanation
 
-Code Review as an application should be a forum to review code. Useres should be 
+Code Review as an application should be a forum to review code. Useres should be
 
 ## Basic features / must haves
 
@@ -16,9 +16,12 @@ Code Review as an application should be a forum to review code. Useres should be
 
 ![systemdiagram](./systemdiagram.png "Systemdiagram")
 
-
 ## Frontend Mock Up
 
 ![img](./Home.png "Home screen")
 
 ![T](./Topics.png)
+
+## Use Case Diagram
+
+![img](./U)
