@@ -29,3 +29,9 @@ Code Review as an application should be a forum to review code. Useres should be
 ### Use Case Thread eröffnen
 
 ![Open up thread](./OpenUpThread_UseCase.png "OpenUpThread")
+
+### Use Case Delete Thread
+
+![img](./DeleteThread.png)
+
+###
