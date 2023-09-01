@@ -34,4 +34,6 @@ Code Review as an application should be a forum to review code. Useres should be
 
 ![img](./DeleteThread.png)
 
-###
+### Use Case Update Thread
+
+![img](./UpdateThread.png "Update Thread")
