@@ -25,7 +25,7 @@
                 <mxCell id="Qkbx9p1Kv_QJWJzqjC_H-8" value="Thread &lt;br&gt;löschen" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="360" y="190" width="120" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="Qkbx9p1Kv_QJWJzqjC_H-9" value="Thread &lt;br&gt;editieren" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="Qkbx9p1Kv_QJWJzqjC_H-9" value="Thread &lt;br&gt;updaten" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="360" y="280" width="120" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="Qkbx9p1Kv_QJWJzqjC_H-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="Qkbx9p1Kv_QJWJzqjC_H-16" target="Qkbx9p1Kv_QJWJzqjC_H-2" edge="1">
