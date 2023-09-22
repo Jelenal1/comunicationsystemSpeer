@@ -7,7 +7,15 @@ const port = 3000;
 const TESTDATA = [
     {
         'id': 1,
-        'title': 'Wierd threa',
+        'title': 'Wierd thread',
+        'description': 'This is a wierd thread',
+        'author': 'Lolo',
+        'date': '12.09.2022',
+        'awnsers': []
+    },
+    {
+        'id': 2,
+        'title': 'Wierd thread 2',
         'description': 'This is a wierd thread',
         'author': 'Lolo',
         'date': '12.09.2022',
