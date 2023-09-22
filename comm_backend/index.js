@@ -7,7 +7,7 @@ const port = 3000;
 const TESTDATA = [
     {
         'id': 1,
-        'title': 'Wierd thread',
+        'title': 'Wierd threa',
         'description': 'This is a wierd thread',
         'author': 'Lolo',
         'date': '12.09.2022',
@@ -15,17 +15,17 @@ const TESTDATA = [
     }
 ]
 
-app.get('/threads/:id', (req, res) => {
+app.get('/api/threads/:id', (req, res) => {
     const threadId = req.params.id;
     const threadById = TESTDATA.find(thread => thread.id === parseInt(threadId));
     res.status(200).json(threadById);
 })
 
-app.get('/threads', (req, res) => {
+app.get('/api/threads', (req, res) => {
     res.status(200).json(TESTDATA);
 })
 
-app.post('/threads', (req, res) => {
+app.post('/api/threads', (req, res) => {
     const thread = {
         'title': req.body.title,
         'description': req.body.description,

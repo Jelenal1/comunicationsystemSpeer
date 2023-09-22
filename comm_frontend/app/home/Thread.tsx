@@ -7,8 +7,6 @@ interface Thread {
   awnsers: string[];
 }
 
-import { FaUserCircle } from 'react-icons/fa';
-
 export default function Thread({ thread }: { thread: Thread }) {
   return (
     <div className="p-4 rounded-lg bg-green-400 flex flex-col mx-auto w-2/3 lg:w-2/4">
