@@ -7,13 +7,15 @@ interface Thread {
   awnsers: string[];
 }
 
+import { FaUserCircle } from 'react-icons/fa';
+
 export default function Thread({ thread }: { thread: Thread }) {
   return (
-    <div className="p-4 rounded-lg bg-green-400 flex flex-col mx-auto w-2/3">
-        
+    <div className="p-4 rounded-lg bg-green-400 flex flex-col mx-auto w-2/3 lg:w-2/4">
       <div className="mx-auto flex flex-col">
         <h1 className="text-2xl font-bold">{thread.title}</h1>
         <h2>{thread.date}</h2>
+        <span>{'💬' + thread.awnsers.length}</span>
       </div>
     </div>
   );

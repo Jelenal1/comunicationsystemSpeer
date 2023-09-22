@@ -14,7 +14,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className='mt-2 flex flex-col w-screen'>
+      <div className="mt-2 flex flex-col w-screen">
         {mockData.map((thread) => (
           <Thread thread={thread} key={thread.id} />
         ))}
