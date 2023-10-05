@@ -1,11 +1,36 @@
-version: '3.1'
-
 services:
-  mongo:
-    image: mongo
+  frontend:
+    build: ./comm_frontend
     restart: always
     ports:
-      - 27017:27017
+      - 3001:3001
+    depends_on:
+      - backend
+    volumes:
+      - ./packages/landingpage:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
+  backend:
+    build: ./comm_backend
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
     environment:
+      MONGO_DB_CONNECTION_STRING: 'mongodb://jelena:12345@mongodb:27017/codereview'
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+volumes:
+  mongodb_data_container:

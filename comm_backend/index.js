@@ -1,39 +1,45 @@
 import express from 'express';
+import mongoose, { Schema } from 'mongoose';
 const app = express();
 app.use(express.json());
 const port = 3000;
+mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log("Connected to MongoDB"))
+    .catch((err) => console.log(err));
 
+const threadSchema = new Schema({
+    'title': String,
+    'description': String,
+    'author': String,
+    'date': String,
+    'awnsers': Array
+})
 
-const TESTDATA = [
-    {
-        'id': 1,
-        'title': 'Wierd thread',
-        'description': 'This is a wierd thread',
-        'author': 'Lolo',
-        'date': '12.09.2022',
-        'awnsers': []
-    },
-    {
-        'id': 2,
-        'title': 'Wierd thread 2',
-        'description': 'This is a wierd thread',
-        'author': 'Lolo',
-        'date': '12.09.2022',
-        'awnsers': []
+const Thread = mongoose.model('Thread', threadSchema)
+
+app.get('/api/threads/:id', async (req, res) => {
+    try {
+        const threadById = await Thread.findById(req.params.id).exec();
+        res.status(200).json(threadById);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json(err);
     }
-]
 
-app.get('/api/threads/:id', (req, res) => {
-    const threadId = req.params.id;
-    const threadById = TESTDATA.find(thread => thread.id === parseInt(threadId));
-    res.status(200).json(threadById);
+
 })
 
-app.get('/api/threads', (req, res) => {
-    res.status(200).json(TESTDATA);
+app.get('/api/threads', async (req, res) => {
+    try {
+        const allThreads = await Thread.find({})
+        res.status(200).json(allThreads);
+    } catch (err) {
+        res.status(500).json(err)
+    }
+
 })
 
-app.post('/api/threads', (req, res) => {
+app.post('/api/threads', async (req, res) => {
     const thread = {
         'title': req.body.title,
         'description': req.body.description,
@@ -42,8 +48,12 @@ app.post('/api/threads', (req, res) => {
         'awnsers': []
     }
 
-    TESTDATA.push(thread)
-    res.status(200).json(thread);
+    try {
+        const newThread = await Thread.create(thread);
+        res.status(201).json(newThread);
+    } catch (err) {
+        return res.status(500).json(err);
+    }
 
 })
 
