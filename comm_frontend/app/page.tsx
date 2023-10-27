@@ -1,7 +1,7 @@
 import Thread from './Thread';
 
 interface Thread {
-  id: number;
+  _id: number;
   title: string;
   description: string;
   author: string;
@@ -17,12 +17,12 @@ async function getThreads() {
 
 export default async function Home() {
   const threads = await getThreads();
-
+  console.log(threads);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="mt-2 flex flex-col w-screen">
         {threads.map((thread: Thread) => (
-          <Thread thread={thread} key={thread.id} />
+          <Thread thread={thread} key={thread._id} />
         ))}
       </div>
     </main>
