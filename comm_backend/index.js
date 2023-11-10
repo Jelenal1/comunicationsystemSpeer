@@ -44,7 +44,7 @@ app.post('/api/threads', async (req, res) => {
         'title': req.body.title,
         'description': req.body.description,
         'author': req.body.author,
-        'date': req.body.date,
+        'date': (new Date()).toLocaleString(),
         'awnsers': []
     }
 
@@ -57,6 +57,12 @@ app.post('/api/threads', async (req, res) => {
 
 })
 app.put('/api/threads/:id', async (req, res) => {
+    const newawnser = {
+        'id': Date.now().toString(),
+        'author': req.body.author,
+        'date': (new Date()).toLocaleString(),
+        'awnser': req.body.awnser
+    }
     try {
         const filter = { _id: req.params.id };
         const update = { $push: { awnsers: req.body } };
