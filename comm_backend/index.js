@@ -65,7 +65,7 @@ app.put('/api/threads/:id', async (req, res) => {
     }
     try {
         const filter = { _id: req.params.id };
-        const update = { $push: { awnsers: req.body } };
+        const update = { $push: { awnsers: newawnser } };
         const updatedThread = await Thread.findOneAndUpdate(filter, update, { new: true });
         res.status(200).json(updatedThread);
     } catch (err) {
