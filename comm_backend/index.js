@@ -56,7 +56,17 @@ app.post('/api/threads', async (req, res) => {
     }
 
 })
+app.put('/api/threads/:id', async (req, res) => {
+    try {
+        const filter = { _id: req.params.id };
+        const update = { $push: { awnsers: req.body } };
+        const updatedThread = await Thread.findOneAndUpdate(filter, update, { new: true });
+        res.status(200).json(updatedThread);
+    } catch (err) {
+        return res.status(500).json(err);
+    }
 
+})
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
 })
