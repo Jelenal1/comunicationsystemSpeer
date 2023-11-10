@@ -1,4 +1,5 @@
 import Awnser from "./Awnser";
+import Newawnser from "./Newawnser";
 
 interface Awnser {
   id: string;
@@ -33,6 +34,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         <h2>{thread.date}</h2>
         <p>{thread.description}</p>
         <div className="w-full mt-5">
+          <Newawnser id={params.slug}/>
           {thread.awnsers.map((awnser: Awnser) => (
             <Awnser awnser={awnser} key={awnser.id} />
           ))}
