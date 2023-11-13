@@ -1,5 +1,22 @@
+"use client";
+import { useEffect, useState } from "react";
 import Awnser from "./Awnser";
 import Newawnser from "./Newawnser";
+
+interface Awnser {
+  author: string;
+  date: string;
+  awnser: string;
+}
+
+interface Thread {
+  _id: number;
+  title: string;
+  description: string;
+  author: string;
+  date: string;
+  awnsers: Awnser[];
+}
 
 interface Awnser {
   id: string;
@@ -7,14 +24,27 @@ interface Awnser {
   date: string;
   awnser: string;
 }
-async function getThread(id: string) {
-  const response = await fetch(`http://localhost:3000/api/threads/${id}`);
-  const data = await response.json();
-  return data;
-}
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const thread = await getThread(params.slug);
+
+export default function Page({ params }: { params: { slug: string } }) {
+  const [thread, setThread] = useState<Thread | null>(null);
+  async function getThread(id: string) {
+    const response = await fetch(`http://localhost:3000/api/threads/${id}`);
+    const data = await response.json();
+    setThread(data);
+  }
+
+  useEffect(() => {
+    getThread(params.slug);
+  }, [params.slug]);
+
+  const handleNewAnswer = () => {
+    getThread(params.slug);
+  };
+  
+  if (!thread) {
+    return <div className="text-2xl font-bold">Loading...</div>;
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -24,9 +54,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
         <h2>{thread.date}</h2>
         <p>{thread.description}</p>
         <div className="w-full mt-5">
-          <Newawnser id={params.slug}/>
+          <Newawnser id={params.slug} onAwnser={handleNewAnswer} />
           {thread.awnsers.map((awnser: Awnser) => (
-            <Awnser awnser={awnser} key={awnser.id} />
+            <Awnser key={awnser.id} awnser={awnser} />
           ))}
         </div>
       </div>
