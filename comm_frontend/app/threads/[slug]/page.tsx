@@ -32,6 +32,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     const response = await fetch(`http://localhost:3000/api/threads/${id}`);
     const data = await response.json();
     setThread(data);
+    console.log(data);
   }
 
   useEffect(() => {

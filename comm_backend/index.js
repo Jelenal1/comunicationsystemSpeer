@@ -1,6 +1,8 @@
 import express from 'express';
 import mongoose, { Schema } from 'mongoose';
+import cors from 'cors';
 const app = express();
+app.use(cors());
 app.use(express.json());
 const port = 3000;
 mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -73,6 +75,27 @@ app.put('/api/threads/:id', async (req, res) => {
     }
 
 })
+
+app.delete('/api/threads/:threadId/answers/:answerId', async (req, res) => {
+    try {
+        const threadId = req.params.threadId;
+        const answerId = req.params.answerId;
+
+        const filter = { _id: threadId };
+        const update = { $pull: { answers: { id: answerId } } };
+        const updatedThread = await Thread.findOneAndUpdate(filter, update, { new: true });
+
+        if (!updatedThread) {
+            return res.status(404).json({ message: 'Thread not found' });
+        }
+
+        res.status(200).json(updatedThread);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(err);
+    }
+});
+
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
 })
