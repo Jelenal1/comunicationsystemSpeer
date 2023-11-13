@@ -13,16 +13,6 @@ async function getThread(id: string) {
   return data;
 }
 
-async function postAwnser(id: string, awnser: string) {
-  const response = await fetch(`http://localhost:3000/api/threads/${id}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ awnser }),
-  });
-}
-
 export default async function Page({ params }: { params: { slug: string } }) {
   const thread = await getThread(params.slug);
 
