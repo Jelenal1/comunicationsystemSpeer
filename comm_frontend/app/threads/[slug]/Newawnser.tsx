@@ -32,30 +32,35 @@ export default function Newawnser({
 	const [author, setAuthor] = useState("");
 
 	return (
-		<div className="p-4 rounded-lg bg-green-500 mx-auto my-2 w-2/4 ">
+		<div className="p-4 rounded-lg bg-green-500 md:mx-auto my-2 mx-4 md:w-2/4">
 			<form
-				className="flex"
+				className="flex flex-col gap-2"
 				onSubmit={async (e) => {
 					e.preventDefault();
 					await postAwnser(threadId, author, awnser);
 					onAwnser();
 				}}
 			>
+				<h2 className="text-2xl mx-auto">⚠ Word Limit: 40 ⚠</h2>
 				<input
 					type="text"
 					name="author"
 					placeholder="Author"
-					className="mr-2 text-black"
+					className="text-black"
 					onChange={(e) => setAuthor(e.target.value)}
 				/>
 				<input
 					type="text"
 					name="awnser"
-					placeholder="Awnser"
-					className="text-black w-full"
+					placeholder="Anwser"
+					className="text-black"
 					onChange={(e) => setAwnser(e.target.value)}
 				/>
-				<input type="submit" value="Send" className="ml-2" />
+				<input
+					type="submit"
+					value="Send"
+					className="bg-teal-500 rounded-md px-3 mt-1 pb-1 w-fit mx-auto"
+				/>
 			</form>
 		</div>
 	);
