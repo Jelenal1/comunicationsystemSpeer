@@ -64,6 +64,7 @@ app.post('/api/threads', async (req, res) => {
     }
 
 })
+
 app.post('/api/threads/:threadId/awnsers', async (req, res) => {
     const newawnser = {
         'author': req.body.author,
@@ -73,7 +74,6 @@ app.post('/api/threads/:threadId/awnsers', async (req, res) => {
     try {
         const filter = { _id: req.params.threadId };
         const update = { $push: { awnsers: newawnser } };
-        const updatedThread = await Thread.findOneAndUpdate(filter, update, { new: true });
         res.status(200).json(updatedThread);
     } catch (err) {
         return res.status(500).json(err);
@@ -81,19 +81,23 @@ app.post('/api/threads/:threadId/awnsers', async (req, res) => {
 
 })
 
-app.delete('/api/threads/:threadId/answers/:answerId', async (req, res) => {
+app.delete('/api/threads/:threadId/awnsers/:awnserId', async (req, res) => {
     try {
-        const threadId = req.params.threadId;
-        const answerId = req.params.answerId;
+        console.log(req.params.threadId, req.params.awnserId);
 
-        const thread = await Thread.findById(threadId);
-        if (!thread) {
-            return res.status(404).json({ message: 'Thread not found' });
+        const result = await Thread.updateOne(
+            { _id: req.params.threadId },
+            { $pull: { awnsers: { _id: req.params.awnserId } } },
+            { safe: true, multi: false }
+        );
+
+        console.log(result);
+
+        if (result.modifiedCount === 0) {
+            return res.status(404).json({ message: 'Thread or awnser not found' });
         }
 
-        thread.awnsers.pull({ _id: answerId });
-
-        res.status(200).json(updatedThread);
+        res.sendStatus(200);
     } catch (err) {
         console.error(err);
         return res.status(500).json(err);
