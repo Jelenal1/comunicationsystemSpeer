@@ -64,14 +64,14 @@ app.post('/api/threads', async (req, res) => {
     }
 
 })
-app.post('/api/threads/:id/awnsers', async (req, res) => {
+app.post('/api/threads/:threadId/awnsers', async (req, res) => {
     const newawnser = {
         'author': req.body.author,
         'date': (new Date()).toLocaleString(),
         'awnser': req.body.awnser
     }
     try {
-        const filter = { _id: req.params.id };
+        const filter = { _id: req.params.threadId };
         const update = { $push: { awnsers: newawnser } };
         const updatedThread = await Thread.findOneAndUpdate(filter, update, { new: true });
         res.status(200).json(updatedThread);
