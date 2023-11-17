@@ -9,12 +9,18 @@ mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING, { useNewUrlParser: true
     .then(() => console.log("Connected to MongoDB"))
     .catch((err) => console.log(err));
 
+const answerSchema = new Schema({
+    'author': String,
+    'date': String,
+    'awnser': String
+})
+
 const threadSchema = new Schema({
     'title': String,
     'description': String,
     'author': String,
     'date': String,
-    'awnsers': Array
+    'awnsers': [answerSchema]
 })
 
 const Thread = mongoose.model('Thread', threadSchema)
@@ -58,9 +64,8 @@ app.post('/api/threads', async (req, res) => {
     }
 
 })
-app.put('/api/threads/:id', async (req, res) => {
+app.post('/api/threads/:id/awnsers', async (req, res) => {
     const newawnser = {
-        'id': Date.now().toString(),
         'author': req.body.author,
         'date': (new Date()).toLocaleString(),
         'awnser': req.body.awnser
@@ -81,13 +86,12 @@ app.delete('/api/threads/:threadId/answers/:answerId', async (req, res) => {
         const threadId = req.params.threadId;
         const answerId = req.params.answerId;
 
-        const filter = { _id: threadId };
-        const update = { $pull: { answers: { id: answerId } } };
-        const updatedThread = await Thread.findOneAndUpdate(filter, update, { new: true });
-
-        if (!updatedThread) {
+        const thread = await Thread.findById(threadId);
+        if (!thread) {
             return res.status(404).json({ message: 'Thread not found' });
         }
+
+        thread.awnsers.pull({ _id: answerId });
 
         res.status(200).json(updatedThread);
     } catch (err) {

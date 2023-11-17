@@ -19,13 +19,18 @@ db.threads.insertMany([
         'description': 'This is a wierd thread',
         'author': 'Lolo',
         'date': '12.09.2022',
-        'awnsers': []
+        'awnsers': [
+            {
+                'author': 'Lolo',
+                'date': '12.09.2022',
+                'awnser': 'this is an awnser'
+            }
+        ]
     },
     {
         'title': 'Wierd thread 2',
         'description': 'This is a wierd thread',
         'author': 'Lolo',
         'date': '12.09.2022',
-        'awnsers': []
     }
 ])
