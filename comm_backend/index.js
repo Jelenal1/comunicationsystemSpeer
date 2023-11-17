@@ -10,10 +10,11 @@ mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING, { useNewUrlParser: true
     .catch((err) => console.log(err));
 
 const answerSchema = new Schema({
+    'id': Schema.ObjectId,
     'author': String,
     'date': String,
     'awnser': String
-})
+}, { _id: false })
 
 const threadSchema = new Schema({
     'title': String,
@@ -67,6 +68,7 @@ app.post('/api/threads', async (req, res) => {
 
 app.post('/api/threads/:threadId/awnsers', async (req, res) => {
     const newawnser = {
+        'id': new mongoose.Types.ObjectId(),
         'author': req.body.author,
         'date': (new Date()).toLocaleString(),
         'awnser': req.body.awnser
@@ -74,7 +76,8 @@ app.post('/api/threads/:threadId/awnsers', async (req, res) => {
     try {
         const filter = { _id: req.params.threadId };
         const update = { $push: { awnsers: newawnser } };
-        res.status(200).json(updatedThread);
+        const updateThread = await Thread.findOneAndUpdate(filter, update, { new: true });
+        res.status(200).json(updateThread);
     } catch (err) {
         return res.status(500).json(err);
     }
@@ -83,19 +86,26 @@ app.post('/api/threads/:threadId/awnsers', async (req, res) => {
 
 app.delete('/api/threads/:threadId/awnsers/:awnserId', async (req, res) => {
     try {
-        console.log(req.params.threadId, req.params.awnserId);
+        const threadId = req.params.threadId;
+        const awnserId = req.params.awnserId;
 
-        const result = await Thread.updateOne(
-            { _id: req.params.threadId },
-            { $pull: { awnsers: { _id: req.params.awnserId } } },
-            { safe: true, multi: false }
-        );
+        console.log(threadId, awnserId);
 
-        console.log(result);
-
-        if (result.modifiedCount === 0) {
-            return res.status(404).json({ message: 'Thread or awnser not found' });
+        const threadToUpdate = await Thread.findById(req.params.threadId);
+        if (!threadToUpdate) {
+            return res.status(404).json({ message: 'Thread not found' });
         }
+
+        console.log(threadToUpdate);
+
+        const awnserindex = threadToUpdate.awnsers.findIndex((awnser) => awnser.id == awnserId);
+        console.log(awnserindex);
+        if (awnserindex == -1) {
+            return res.status(404).json({ message: 'Awnser not found' });
+        }
+
+        threadToUpdate.awnsers.splice(awnserindex, 1);
+        threadToUpdate.save();
 
         res.sendStatus(200);
     } catch (err) {
