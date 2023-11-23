@@ -20,14 +20,19 @@ async function getThreads() {
 
 export default async function Home() {
 	const threads = await getThreads();
-	console.log(threads);
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-between p-24">
 			<div className="mt-2 flex flex-col w-screen">
 				<NewThread />
-				{threads.map((thread: Thread) => (
-					<Thread thread={thread} key={thread._id} />
-				))}
+				{threads.length === 0 ? (
+					<div className="text-2xl font-bold text-white mx-auto">
+						No Threads
+					</div>
+				) : (
+					threads.map((thread: Thread) => (
+						<Thread thread={thread} key={thread._id} />
+					))
+				)}
 			</div>
 		</main>
 	);

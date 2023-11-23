@@ -1,6 +1,6 @@
 import Link from "next/link";
 import DeleteButton from "./DeleteButton";
-import { redirect } from "next/dist/server/api-utils";
+import { redirect } from "next/navigation";
 
 interface Thread {
 	_id: string;
@@ -17,6 +17,7 @@ export default function Thread({ thread }: { thread: Thread }) {
 		await fetch(`http://localhost:3000/api/threads/${id}`, {
 			method: "DELETE",
 		});
+		redirect("/");
 	}
 
 	return (
