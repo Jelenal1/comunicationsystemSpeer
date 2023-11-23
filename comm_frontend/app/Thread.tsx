@@ -12,9 +12,9 @@ interface Thread {
 }
 
 export default function Thread({ thread }: { thread: Thread }) {
-	async function handleDelete(id: string) {
+	async function handleDelete() {
 		"use server";
-		await fetch(`http://localhost:3000/api/threads/${id}`, {
+		await fetch(`http://backend:3000/api/threads/${thread._id}`, {
 			method: "DELETE",
 		});
 		redirect("/");
@@ -22,7 +22,7 @@ export default function Thread({ thread }: { thread: Thread }) {
 
 	return (
 		<div className="p-4 rounded-lg bg-green-500 grid grid-cols-1 mx-auto my-2 w-2/3 lg:w-2/4 ">
-			<DeleteThreadButton id={thread._id} handleDelete={handleDelete} />
+			<DeleteThreadButton handleDelete={handleDelete} />
 			<Link href={`/threads/${thread._id}`}>
 				<div className="grid lg:grid-cols-2 gap-4 hover:cursor-pointer">
 					<div className="flex flex-col">
