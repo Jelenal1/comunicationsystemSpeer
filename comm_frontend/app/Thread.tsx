@@ -16,6 +16,7 @@ export default function Thread({ thread }: { thread: Thread }) {
 		"use server";
 		await fetch(`http://backend:3000/api/threads/${thread._id}`, {
 			method: "DELETE",
+			cache: "no-store",
 		});
 		redirect("/");
 	}

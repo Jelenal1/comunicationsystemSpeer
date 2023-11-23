@@ -13,6 +13,7 @@ export default function NewThread() {
 				description: formdata.get("description"),
 				author: formdata.get("author"),
 			}),
+			cache: "no-store",
 		});
 		redirect("/");
 	}

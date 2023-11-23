@@ -13,6 +13,7 @@ export default function Newawnser({ threadId }: { threadId: string }) {
 					author: formdata.get("author"),
 					awnser: formdata.get("awnser"),
 				}),
+				cache: "no-store",
 			});
 		} catch (err) {
 			console.log(err);

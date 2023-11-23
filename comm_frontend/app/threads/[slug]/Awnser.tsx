@@ -22,6 +22,7 @@ export default function Awnser({
 			`http://backend:3000/api/threads/${threadId}/awnsers/${awnser.id}`,
 			{
 				method: "DELETE",
+				cache: "no-store",
 			}
 		);
 		redirect(`/threads/${threadId}`);
