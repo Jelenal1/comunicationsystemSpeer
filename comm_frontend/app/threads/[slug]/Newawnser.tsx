@@ -4,7 +4,7 @@ export default function Newawnser({ threadId }: { threadId: string }) {
 	async function postAwnser(formdata: FormData) {
 		"use server";
 		try {
-			await fetch(`http://backend:3000/api/threads/${threadId}/awnsers`, {
+			await fetch(`${process.env.BACKEND_BASE_URL}${threadId}/awnsers`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
