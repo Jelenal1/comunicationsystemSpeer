@@ -1,5 +1,3 @@
-"use client";
-import { useEffect, useState } from "react";
 import Awnser from "./Awnser";
 import Newawnser from "./Newawnser";
 
@@ -19,21 +17,21 @@ interface Awnser {
 	awnser: string;
 }
 
-export default function Page({ params }: { params: { slug: string } }) {
-	const [thread, setThread] = useState<Thread | null>(null);
+export default async function OneThread({
+	params,
+}: {
+	params: { slug: string };
+}) {
 	async function getThread(id: string) {
-		const response = await fetch(`http://localhost:3000/api/threads/${id}`);
+		"use server";
+		const response = await fetch(`http://localhost:3000/api/threads/${id}`, {
+			cache: "no-store",
+		});
 		const data = await response.json();
-		setThread(data);
+		return data;
 	}
 
-	useEffect(() => {
-		getThread(params.slug);
-	}, [params.slug]);
-
-	const handleNewAnswer = () => {
-		getThread(params.slug);
-	};
+	const thread = await getThread(params.slug);
 
 	if (!thread) {
 		return <div className="text-2xl font-bold text-white">Loading...</div>;
@@ -47,14 +45,9 @@ export default function Page({ params }: { params: { slug: string } }) {
 				<h2>{thread.date}</h2>
 				<p>{thread.description}</p>
 				<div className="w-full mt-5">
-					<Newawnser threadId={params.slug} onAwnser={handleNewAnswer} />
+					<Newawnser threadId={params.slug} />
 					{thread.awnsers.map((awnser: Awnser) => (
-						<Awnser
-							key={awnser.id}
-							awnser={awnser}
-							threadId={params.slug}
-							onDelete={() => getThread(params.slug)}
-						/>
+						<Awnser key={awnser.id} awnser={awnser} threadId={params.slug} />
 					))}
 				</div>
 			</div>

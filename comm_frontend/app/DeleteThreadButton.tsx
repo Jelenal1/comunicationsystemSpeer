@@ -1,5 +1,5 @@
 "use client";
-export default function DeleteButton({
+export default function DeleteThreadButton({
 	id,
 	handleDelete,
 }: {

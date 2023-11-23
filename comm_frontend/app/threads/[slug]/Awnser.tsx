@@ -1,4 +1,6 @@
-"use client";
+import DeleteButton from "@/app/DeleteThreadButton";
+import DeleteAwnserButton from "./DeleteAwnserButton";
+import { redirect } from "next/navigation";
 
 interface Awnser {
 	id: string;
@@ -10,29 +12,28 @@ interface Awnser {
 export default function Awnser({
 	awnser,
 	threadId,
-	onDelete,
 }: {
 	awnser: Awnser;
 	threadId: string;
-	onDelete: () => void;
 }) {
-	async function handleDelete(threadId: string, awnserId: string) {
+	async function handleDelete() {
+		"use server";
 		await fetch(
-			`http://localhost:3000/api/threads/${threadId}/awnsers/${awnserId}`,
+			`http://localhost:3000/api/threads/${threadId}/awnsers/${awnser.id}`,
 			{
 				method: "DELETE",
 			}
 		);
-		onDelete();
+		redirect(`/threads/${threadId}`);
 	}
 
 	return (
-		<div className="p-4 rounded-lg bg-green-500 md:mx-auto my-2 mx-4 md:w-2/4">
+		<div className="p-4 rounded-lg bg-green-500 grid grid-cols-1 mx-auto my-2 w-2/3 lg:w-2/4 ">
+			<DeleteAwnserButton handleDelete={handleDelete} />
+
 			<div className="grid grid-cols-2">
 				<h2>👤{awnser.author}</h2>
-				<button onClick={() => handleDelete(threadId, awnser.id)}>🗑</button>
 			</div>
-
 			<p className="overflow-hidden h-full">💬{awnser.awnser.slice(1, 40)}</p>
 		</div>
 	);
