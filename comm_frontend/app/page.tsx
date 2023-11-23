@@ -11,7 +11,7 @@ interface Thread {
 }
 
 async function getThreads() {
-	const response = await fetch("http://backend:3000/api/threads", {
+	const response = await fetch(`${process.env.BACKEND_BASE_URL}`, {
 		cache: "no-store",
 	});
 	const data = await response.json();

@@ -19,7 +19,7 @@ export default function Awnser({
 	async function handleDelete() {
 		"use server";
 		await fetch(
-			`http://backend:3000/api/threads/${threadId}/awnsers/${awnser.id}`,
+			`${process.env.BACKEND_BASE_URL}${threadId}/awnsers/${awnser.id}`,
 			{
 				method: "DELETE",
 				cache: "no-store",

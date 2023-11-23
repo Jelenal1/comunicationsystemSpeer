@@ -1,9 +1,10 @@
+import { auth } from "@/firebase-config";
 import { redirect } from "next/navigation";
 
 export default function NewThread() {
 	async function postThread(formdata: FormData) {
 		"use server";
-		await fetch("http://backend:3000/api/threads", {
+		await fetch(`${process.env.BACKEND_BASE_URL}`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -11,11 +12,15 @@ export default function NewThread() {
 			body: JSON.stringify({
 				title: formdata.get("title"),
 				description: formdata.get("description"),
-				author: formdata.get("author"),
+				author: auth.currentUser?.email,
 			}),
 			cache: "no-store",
 		});
 		redirect("/");
+	}
+
+	if (!auth.currentUser) {
+		return null;
 	}
 
 	return (
