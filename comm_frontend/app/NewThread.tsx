@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 export default function NewThread() {
 	async function postThread(formdata: FormData) {
 		"use server";
-		await fetch("http://localhost:3000/api/threads", {
+		await fetch("http://backend:3000/api/threads", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

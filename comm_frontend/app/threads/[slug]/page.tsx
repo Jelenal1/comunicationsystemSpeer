@@ -24,7 +24,7 @@ export default async function OneThread({
 }) {
 	async function getThread(id: string) {
 		"use server";
-		const response = await fetch(`http://localhost:3000/api/threads/${id}`, {
+		const response = await fetch(`http://backend:3000/api/threads/${id}`, {
 			cache: "no-store",
 		});
 		const data = await response.json();
