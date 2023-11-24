@@ -1,7 +1,5 @@
 import Link from "next/link";
 import DeleteThreadButton from "./DeleteThreadButton";
-import { redirect } from "next/navigation";
-import { auth } from "../firebase-config";
 
 interface Thread {
   _id: string;

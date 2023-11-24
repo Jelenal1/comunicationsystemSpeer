@@ -103,7 +103,7 @@ app.post("/api/threads/:threadId/awnsers", async (req, res) => {
 		const updateThread = await Thread.findOneAndUpdate(filter, update, {
 			new: true,
 		});
-		io.emit("changesInAwnsers")
+		io.emit("changesInThreads")
 		res.status(200).json(updateThread);
 	} catch (err) {
 		return res.status(500).json(err);
@@ -135,7 +135,7 @@ app.delete("/api/threads/:threadId/awnsers/:awnserId", async (req, res) => {
 		threadToUpdate.awnsers.splice(awnserindex, 1);
 		threadToUpdate.save();
 
-		io.emit("changesInAwnsers")
+		io.emit("changesInThreads")
 		res.sendStatus(200);
 	} catch (err) {
 		console.error(err);
