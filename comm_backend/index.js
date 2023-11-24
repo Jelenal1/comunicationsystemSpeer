@@ -1,7 +1,12 @@
 import express from "express";
 import mongoose, { Schema } from "mongoose";
 import cors from "cors";
+import { Server } from "socket.io";
+import { createServer } from "node:http";
+
 const app = express();
+const server = createServer(app);
+const io = new Server(server);
 app.use(cors());
 app.use(express.json());
 const port = 3000;
@@ -63,6 +68,7 @@ app.post("/api/threads", async (req, res) => {
 
 	try {
 		const newThread = await Thread.create(thread);
+		io.emit("changesInThreads");
 		res.status(201).json(newThread);
 	} catch (err) {
 		return res.status(500).json(err);
@@ -72,6 +78,7 @@ app.post("/api/threads", async (req, res) => {
 app.delete("/api/threads/:threadId", async (req, res) => {
 	try {
 		await Thread.findByIdAndDelete(req.params.threadId);
+		io.emit("changesInThreads");
 		res.sendStatus(200);
 	} catch (err) {
 		return res.status(500).json(err);
@@ -91,6 +98,7 @@ app.post("/api/threads/:threadId/awnsers", async (req, res) => {
 		const updateThread = await Thread.findOneAndUpdate(filter, update, {
 			new: true,
 		});
+		io.emit("changesInAwnsers")
 		res.status(200).json(updateThread);
 	} catch (err) {
 		return res.status(500).json(err);
@@ -122,13 +130,19 @@ app.delete("/api/threads/:threadId/awnsers/:awnserId", async (req, res) => {
 		threadToUpdate.awnsers.splice(awnserindex, 1);
 		threadToUpdate.save();
 
+		io.emit("changesInAwnsers")
 		res.sendStatus(200);
 	} catch (err) {
 		console.error(err);
 		return res.status(500).json(err);
 	}
+
 });
 
-app.listen(port, () => {
+io.on("connection", (socket) => {
+	console.log("a user connected");
+})
+
+server.listen(port, () => {
 	console.log(`listening on port ${port}`);
 });
