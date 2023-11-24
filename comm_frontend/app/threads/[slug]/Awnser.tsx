@@ -20,7 +20,7 @@ export default function Awnser({
       <div className="grid grid-cols-2">
         <h2>👤{awnser.author}</h2>
       </div>
-      <p className="overflow-hidden h-full">💬{awnser.awnser.slice(1, 40)}</p>
+      <p className="overflow-hidden h-full">💬{awnser.awnser.slice(0, 40)}</p>
     </div>
   );
 }

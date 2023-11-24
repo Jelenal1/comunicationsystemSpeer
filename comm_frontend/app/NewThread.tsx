@@ -1,6 +1,3 @@
-import { auth } from "@/firebase-config";
-import { redirect } from "next/navigation";
-
 export default function NewThread() {
   async function postThread(formdata: FormData) {
     "use server";
@@ -12,7 +9,7 @@ export default function NewThread() {
       body: JSON.stringify({
         title: formdata.get("title"),
         description: formdata.get("description"),
-        author: auth.currentUser?.email,
+        author: formdata.get("author"),
       }),
       cache: "no-store",
     });
@@ -26,6 +23,12 @@ export default function NewThread() {
           type="text"
           name="title"
           placeholder="Title"
+          className="text-black"
+        />
+        <input
+          type="text"
+          name="author"
+          placeholder="Author"
           className="text-black"
         />
         <input
