@@ -20,7 +20,7 @@ export default function AwnserList({ threadId }: { threadId: string }) {
       `${process.env.NEXT_PUBLIC_BACKEND_CLIENT}${threadId}`
     );
     const data = await response.json();
-    setAwnsers(data.awnsers);
+    setAwnsers(data.awnsers.slice(awnsers.length - 4));
   }
 
   useEffect(() => {
