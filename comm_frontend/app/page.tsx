@@ -1,39 +1,23 @@
 import NewThread from "./NewThread";
 import Thread from "./Thread";
+import ThreadList from "./ThreadList";
 
 interface Thread {
-	_id: string;
-	title: string;
-	description: string;
-	author: string;
-	date: string;
-	awnsers: string[];
-}
-
-async function getThreads() {
-	const response = await fetch(`${process.env.BACKEND_BASE_URL}`, {
-		cache: "no-store",
-	});
-	const data = await response.json();
-	return data;
+  _id: string;
+  title: string;
+  description: string;
+  author: string;
+  date: string;
+  awnsers: string[];
 }
 
 export default async function Home() {
-	const threads = await getThreads();
-	return (
-		<main className="flex min-h-screen flex-col items-center justify-between p-24">
-			<div className="mt-2 flex flex-col w-screen">
-				<NewThread />
-				{threads.length === 0 ? (
-					<div className="text-2xl font-bold text-white mx-auto">
-						No Threads
-					</div>
-				) : (
-					threads.map((thread: Thread) => (
-						<Thread thread={thread} key={thread._id} />
-					))
-				)}
-			</div>
-		</main>
-	);
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <div className="mt-2 flex flex-col w-screen">
+        <NewThread />
+        <ThreadList />
+      </div>
+    </main>
+  );
 }

@@ -16,7 +16,6 @@ export default function NewThread() {
       }),
       cache: "no-store",
     });
-    redirect("/");
   }
 
   return (
