@@ -15,7 +15,7 @@ const socket = io("http://localhost:3000");
 export default function AwnserList({ threadId }: { threadId: string }) {
   const [awnsers, setAwnsers] = useState<Awnser[]>([]);
 
-  async function getAwnsers(threadId: string) {
+  async function getAwnsers() {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_CLIENT}${threadId}`
     );
@@ -24,7 +24,7 @@ export default function AwnserList({ threadId }: { threadId: string }) {
   }
 
   useEffect(() => {
-    getAwnsers(threadId);
+    getAwnsers();
 
     socket.on("changesInThreads", getAwnsers);
 
